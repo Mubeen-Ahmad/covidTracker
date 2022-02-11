@@ -1,24 +1,47 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
+
+import Card from './components/cards/card';
+import Chart from './components/charts/chart';
+import Country from './components/countries/country';
+import { fetchData, fetchDailyData } from './api/dataApi';
+
 
 function App() {
+  let [valueData, setValueData] = useState({
+    data: {},
+    country: '',
+  });
+
+
+  useEffect(() => {
+    async function getData() {
+
+
+      let res = await fetchData()
+      setValueData({ data: res })
+      // console.log(valueData);
+    }
+
+    getData();
+  }, [])
+
+  const handleCountryChange = async (country) => {
+    let res = await fetchData(country)
+    setValueData({ data: res ,country :country })
+
+    // console.log(res);
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+    <div className='fullForm'>
+      <Card data={valueData.data}></Card>
+      <Country handleCountryChange={handleCountryChange}></Country>
+      <Chart data={valueData.data} country={valueData.country}></Chart>
     </div>
+
   );
 }
 

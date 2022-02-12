@@ -37,6 +37,7 @@ function App() {
   return (
 
     <div className='fullForm'>
+      <img src='covid.png' className='covidImage' />
       <Card data={valueData.data}></Card>
       <Country handleCountryChange={handleCountryChange}></Country>
       <Chart data={valueData.data} country={valueData.country}></Chart>
